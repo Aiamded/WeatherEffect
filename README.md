@@ -7,6 +7,7 @@ Minecraft artificial weather effect through particle builder, playsound and effe
 ## Dependencies
 
 > None... however this plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks
+> Testeed on 1.17.1, not confirmed on lower versions and should work just fine.
 
 ## To do list
 
