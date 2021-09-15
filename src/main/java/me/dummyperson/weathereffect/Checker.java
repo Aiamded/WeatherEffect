@@ -14,6 +14,7 @@ import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Checker {
     public BiomeBase getBiomeBase(Location location) {
@@ -43,6 +44,39 @@ public class Checker {
             return "thunder";
         }else {
             return null;
+        }
+    }
+
+    public boolean blockAbove (Location location) {
+        Bukkit.getLogger().info("Block above checking");
+        int solid = location.getWorld().getHighestBlockYAt(location);
+        int yspawn = location.getBlockY();
+        if (solid >= yspawn) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean skylightChance (Location location, int chances) {
+        int lightLevel = location.getBlock().getLightLevel();
+        int a = new Random().nextInt(15);
+        if (a <= lightLevel) {
+           if (new Random().nextInt(100) < chances) {
+               return true;
+            }
+           else return false;
+        } else return  false;
+    }
+
+    public String airCheck (Location location) {
+        String airchecker = location.getBlock().getBlockData().toString();
+        if (airchecker.equals("AIR")) {
+            return "air";
+        } else if (airchecker.equals("CAVE_AIR")) {
+            return "cave_air";
+        } else {
+            return  "other";
         }
     }
 }

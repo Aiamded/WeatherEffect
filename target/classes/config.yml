@@ -5,7 +5,7 @@
 #You might want to change this depends on what particle you used. 20 tick = 1 second
 ticks: 4
 #how many times to attempt spawning particles every ticks rate above
-attempts: 20
+attempts: 40
 enabled-weather:
   #Weather Effect Names
   sandstorm:
@@ -28,23 +28,23 @@ enabled-weather:
     particle:
       #particle name to send
       #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
-      name: SOUL_FIRE_FLAME
+      name: SNOWFLAKE
       #particles movement when spawned
-      delta-x: 5
-      delta-y: 5
-      delta-z: 5
+      delta-x: 1
+      delta-y: 1
+      delta-z: 1
       #particle speed
-      speed: 0
+      speed: 0.25
       #particle count
-      count: 20
+      count: 10
       #How many blocks from player's current location can the particles spawned up to.
-      radius: 20
+      radius: 15
       #force spawning particles if true otherwise it will spawn within where player looking at.
       force: false
       #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
       #If chances 100, any area with light level 15 will have particles spawned
       #chance = Skylightlevel * 100
-      chances: 80
+      chances: 100
     # **** options below not available yet ****
     #Effects given to players
     effects:

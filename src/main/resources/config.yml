@@ -3,51 +3,64 @@
 #Weather effect only available in "world"
 #lisf ot weathers that are enabled.
 #You might want to change this depends on what particle you used. 20 tick = 1 second
-ticks: 20
+ticks: 4
+#how many times to attempt spawning particles every ticks rate above
+attempts: 40
 enabled-weather:
   #Weather Effect Names
   sandstorm:
     #thunder, rain, clear
+    #not sure if thunder check is working use rain or clear
     weathertype: rain
-    #More information for particles
-    #https://minecraft.fandom.com/wiki/Particles
-    particle:
-      #particle name to send
-      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
-      name: SOUL_FIRE_FLAME
-      #particles movement when spawned
-      delta-x: 10
-      delta-y: 10
-      delta-z: 10
-      #particle speed
-      speed: 0
-      #particle count
-      count: 50
-      #How many blocks from player's current location can the particles spawned up to.
-      radius: 20
-      #Y limits
-      min-y:
-      max-y:
+    #valid types are air and cave_air
+    aircheck: false
+    airtype: air
+    blockabovecheck: true
     #Check if particles should only be spawned inside a biome
     biomes-check: true
     #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
     biomes:
       - terralith:mirage_isles
+      - terralith:amethyst_rainforest
       - minecraft:badlands
+    #More information for particles
+    #https://minecraft.fandom.com/wiki/Particles
+    particle:
+      #particle name to send
+      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
+      name: SNOWFLAKE
+      #particles movement when spawned
+      delta-x: 1
+      delta-y: 1
+      delta-z: 1
+      #particle speed
+      speed: 0.25
+      #particle count
+      count: 10
+      #How many blocks from player's current location can the particles spawned up to.
+      radius: 15
+      #force spawning particles if true otherwise it will spawn within where player looking at.
+      force: false
+      #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
+      #If chances 100, any area with light level 15 will have particles spawned
+      #chance = Skylightlevel * 100
+      chances: 100
+    # **** options below not available yet ****
     #Effects given to players
     effects:
       - blind
     #Effect cooldown. Will be reapplied with interval
     #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
     cooldown: 4
+    #Play sound at the location of where the particle spawned
     sound:
       name:
       volume:
       pitch:
-    #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
-    #If chances 100, any area with light level 15 will have particles spawned
-    #chance = Skylightlevel * 100
-    chances: 20
-    #How frequently the particles is spawned
-
+      chance:
+    summon:
+      mobs:
+        - zombies
+        - skeleton
+      chance: 5
 

@@ -7,8 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
+
 
 import java.util.List;
 
@@ -28,8 +27,13 @@ public class WeatherEffectTask {
             List<String> biomes = effect.getStringList("biomes");
             if (checker.weatherCheck(player).equals(weather) & biomes.contains(biome) & biomesCheck){
                 spawnParticles(particle, player.getLocation(), player);
+                //run spawnParticles n amount of times
             }
         }
+    }
+
+    interface blockabovecheck {
+        void checker();
     }
 
     public void spawnParticles(ConfigurationSection particle, Location location, Player player){
@@ -38,7 +42,49 @@ public class WeatherEffectTask {
         double x = (rando(min, max));
         double y = (rando(min, max));
         double z = (rando(min, max));
-        location.add(x, y, z);
+        Location randoLoc = location.add(x, y, z);
+        blockabovecheck check = new blockabovecheck() {
+            public void checker() {
+                if (particle.getBoolean("blockabovecheck")) {
+                    blockabove();
+                } else if (!particle.getBoolean("blockabovecheck")) {
+                    if (checker.skylightChance(randoLoc, particle.getInt("chances"))) {
+                        spawnParticlesPassed(particle, randoLoc, player);
+                    } else {
+                        // Bruh Attempt Fails
+                    }
+                } else {
+
+                }
+            }
+
+            public void blockabove() {
+                if (!checker.blockAbove(randoLoc)) {
+                    spawnParticlesPassed(particle, randoLoc, player);
+                } else if (checker.blockAbove(randoLoc)){
+                    //repeat Spawnparticles
+                } else {
+
+                }
+            }
+        };
+
+        if (particle.getBoolean("aircheck")) {
+            if (checker.airCheck(randoLoc).contains("air")) {
+                check.checker();
+            } else if (checker.airCheck(randoLoc).contains("cave")) {
+                check.checker();
+            } else if (checker.airCheck(randoLoc).contains("other")) {
+                //check.checker();
+            } else {
+                check.checker();
+            }
+        } else {
+            check.checker();
+        }
+    }
+
+    public void spawnParticlesPassed(ConfigurationSection particle, Location location, Player player) {
         int count = particle.getInt("count");
         double deltax = particle.getDouble("delta-x");
         double deltay = particle.getDouble("delta-y");
@@ -49,6 +95,7 @@ public class WeatherEffectTask {
         pb.location(location);
         pb.offset(deltax, deltay, deltaz);
         pb.extra(particle.getDouble("speed"));
+        pb.force(particle.getBoolean("force"));
         pb.spawn();
     }
 
