@@ -1,0 +1,53 @@
+#Supports Datapack Custom Biome Gen, May partially be compatible with world gen plugin.
+#Very customizable and make your own effects
+#Weather effect only available in "world"
+#lisf ot weathers that are enabled.
+#You might want to change this depends on what particle you used. 20 tick = 1 second
+ticks: 20
+enabled-weather:
+  #Weather Effect Names
+  sandstorm:
+    #thunder, rain, clear
+    weathertype: rain
+    #More information for particles
+    #https://minecraft.fandom.com/wiki/Particles
+    particle:
+      #particle name to send
+      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
+      name: SOUL_FIRE_FLAME
+      #particles movement when spawned
+      delta-x: 10
+      delta-y: 10
+      delta-z: 10
+      #particle speed
+      speed: 0
+      #particle count
+      count: 50
+      #How many blocks from player's current location can the particles spawned up to.
+      radius: 20
+      #Y limits
+      min-y:
+      max-y:
+    #Check if particles should only be spawned inside a biome
+    biomes-check: true
+    #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
+    biomes:
+      - terralith:mirage_isles
+      - minecraft:badlands
+    #Effects given to players
+    effects:
+      - blind
+    #Effect cooldown. Will be reapplied with interval
+    #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
+    cooldown: 4
+    sound:
+      name:
+      volume:
+      pitch:
+    #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
+    #If chances 100, any area with light level 15 will have particles spawned
+    #chance = Skylightlevel * 100
+    chances: 20
+    #How frequently the particles is spawned
+
+
