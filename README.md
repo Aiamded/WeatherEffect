@@ -10,3 +10,7 @@ Summon Mobs
 Elitemob support
 PlaceholderAPI
 WorldGuard
+
+
+Credits will add later
+
