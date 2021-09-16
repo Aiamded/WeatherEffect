@@ -15,14 +15,15 @@ Sparks your creativity super customizable.
 
 > * [x] PlaySound Effects
 > * [x] Falling_Dust Particle Supprt
+> * [x] Give Effect to Players
 > * [ ] Dust Particle
 > * [ ] Dust Color Transition Effect
 > * [ ] Vibration Particles 
 > * [ ] Summon Entities
-> * [ ] Give Effect to Players
 > * [ ] PlaceholderAPI support
 > * [ ] WordlGuard Support
 > * [ ] Permissions Support
+> * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
 > If you have suggestions feel free to let me know
 
 ## Sample Video Click It!
