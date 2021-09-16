@@ -24,7 +24,10 @@ Sparks your creativity super customizable.
 > * [ ] WordlGuard Support
 > * [ ] Permissions Support
 > * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
-> If you have suggestions feel free to let me know
+
+If you have suggestions feel free to let me know. Dummyperson#6969
+Like this plugin? [Donate](https://breadstick.info/support)
+Consider contribute to this project or creditors.
 
 ## Sample Video Click It!
 > [![Watch the video](https://img.youtube.com/vi/iyUgYhvz7Ys/maxresdefault.jpg)](https://youtu.be/iyUgYhvz7Ys)
