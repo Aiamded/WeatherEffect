@@ -24,6 +24,8 @@ Sparks your creativity super customizable.
 > * [ ] WordlGuard Support
 > * [ ] Permissions Support
 > * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
+> * [ ] NMS Entity NBT Tag support for special ability
+> * [ ] Separate Particle, Sound and Entity Spawning into different config files.
 
 If you have suggestions feel free to let me know. Dummyperson#6969
 
