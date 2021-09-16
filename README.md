@@ -19,6 +19,7 @@ Sparks your creativity super customizable.
 > * [ ] Dust Color Transition Effect
 > * [ ] Vibration Particles 
 > * [ ] Summon Entities
+> * [ ] Give Effect to Players
 > * [ ] PlaceholderAPI support
 > * [ ] WordlGuard Support
 > * [ ] Permissions Support
