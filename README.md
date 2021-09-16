@@ -7,17 +7,25 @@ Minecraft artificial weather effect through particle builder, playsound and effe
 ## Dependencies
 
 > None... however this plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks
-> Testeed on 1.17.1, not confirmed on lower versions and should work just fine.
+> Tested on 1.17.1, not confirmed on lower versions and should work just fine.
 
 ## To do list
 
-> * PlaySound Effects
-> * Summon Entities
-> * PlaceholderAPI support
-> * WordlGuard Support
-> * Permissions Support
+> * [x] PlaySound Effects
+> * [x] Falling_Dust Particle Supprt
+> * [ ] Dust Particle
+> * [ ] Dust Color Transition Effect
+> * [ ] Vibration Particles 
+> * [ ] Summon Entities
+> * [ ] PlaceholderAPI support
+> * [ ] WordlGuard Support
+> * [ ] Permissions Support
 > If you have suggestions feel free to let me know
 
 ## Credits
 
 > My Friends, [Jeff Media GBR contributor](https://github.com/mfnalex), [Custom Biome Detection Using NMS](https://www.spigotmc.org/threads/1-17-getting-custom-biomes-and-dimensions-by-namespace.513957/).
+
+## Inspiration
+
+> [Dessert Sandstorm Datapack](https://www.planetminecraft.com/data-pack/desert-sandstorms/).
