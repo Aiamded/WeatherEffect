@@ -4,7 +4,9 @@
 
 Minecraft artificial weather effect through particle builder, playsound and effects. Works with custom biome datapacks. If you created some cools effect in the config you can let me know and I can share it in the wiki.
 
-Sparks your creativity super customizable.
+Sparks your creativity super customizable. Change the game Mechanic.
+
+I realized with this plugin you can do alot of things. Like multiple particle types in a biome. Chance of playing sound in biome. Summon Specific Entities with chance in a biome. All configurable whether if rain, thunder, or clear, specific biomes, detect material type at location particles spawning, skylight checks, block above checks and more...
 
 ## Dependencies
 
@@ -25,7 +27,7 @@ Sparks your creativity super customizable.
 > * [ ] Permissions Support
 > * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
 > * [ ] NMS Entity NBT Tag support for special ability
-> * [ ] Separate Particle, Sound and Entity Spawning into different config files.
+> * [ ] Separate Particle, Sound and Entity Spawning into different config files. Which should help with performance at the cost of configuration complexity.
 
 If you have suggestions feel free to let me know. Dummyperson#6969
 
