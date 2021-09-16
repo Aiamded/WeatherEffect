@@ -4,6 +4,8 @@
 
 Minecraft artificial weather effect through particle builder, playsound and effects. Works with custom biome datapacks. If you created some cools effect in the config you can let me know and I can share it in the wiki.
 
+Sparks your creativity super customizable.
+
 ## Dependencies
 
 > None... however this plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks
