@@ -72,4 +72,8 @@ public class Checker {
         String airchecker = location.getBlock().getType().name();
         return airchecker;
     }
+
+    public Boolean groundCheck (Location location, int chances) {
+        return false;
+    }
 }

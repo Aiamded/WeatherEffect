@@ -1,14 +1,17 @@
 package me.dummyperson.weathereffect;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import net.minecraft.server.commands.CommandPlaySound;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 
@@ -26,10 +29,14 @@ public class WeatherEffectTask {
             boolean biomesCheck = effect.getBoolean("biomes-check");
             ConfigurationSection particle = effect.getConfigurationSection("particle");
             ConfigurationSection sound = effect.getConfigurationSection("sound");
+            ConfigurationSection summon = effect.getConfigurationSection("summon");
+            ConfigurationSection effects = effect.getConfigurationSection("effects");
             List<String> biomes = effect.getStringList("biomes");
             if (checker.weatherCheck(player).equals(weather) & biomes.contains(biome) & biomesCheck){
                 spawnParticles(particle, player.getLocation(), player);
                 soundGenerator(sound, player.getLocation(), player);
+                effectgiver(effects, player.getLocation(), player);
+                entitygenerator(summon, player.getLocation(), player);
             }
         }
     }
@@ -48,40 +55,40 @@ public class WeatherEffectTask {
         Blockabovecheck check = new Blockabovecheck() {
             public void checker() {
                 if (particle.getBoolean("blockabovecheck")) {
-                    blockabovechecking();
+                    blockAboveChecking();
                 } else if (!particle.getBoolean("blockabovecheck")) {
                     if (checker.skylightChance(randoLoc, particle.getInt("chances"))) {
                         spawnParticlesPassed(particle, randoLoc, player);
                     } else {
                         // Bruh Attempt Fails
-                        retryonfail();
+                        retryOnFail();
                     }
                 } else {
-                    retryonfail();
+                    retryOnFail();
                 }
             }
 
-            public void blockabovechecking() {
+            public void blockAboveChecking() {
                 if (!checker.blockAbove(randoLoc)) {
                     spawnParticlesPassed(particle, randoLoc, player);
                 } else if (checker.blockAbove(randoLoc)){
                     //Do not attempt to spawn particle again if there's a block above
-                    //retryonfail();
+                    //retryOnFail();
                 } else {
 
                 }
             }
 
-            public void retryonfail() {
+            public void retryOnFail() {
                 double max = particle.getInt("radius");
                 double min = -particle.getInt("radius");
                 double x = (rando(min, max));
                 double y = (rando(min, max));
                 double z = (rando(min, max));
                 Location randoLoc = location.add(x, y, z);
-                airchecking(randoLoc);
+                airChecking(randoLoc);
             }
-            public void airchecking(Location randoLoc) {
+            public void airChecking(Location randoLoc) {
                 if (particle.getBoolean("aircheck")) {
                     if (particle.getList("blocktypes").contains(checker.airCheck(randoLoc))) {
                         checker();
@@ -162,7 +169,24 @@ public class WeatherEffectTask {
         check.checker();
     }
 
-    public void entitygenerator() {
+    public void entitygenerator(ConfigurationSection summon, Location location, Player player) {
 
     }
+
+    public void effectgiver(ConfigurationSection effects, Location location, Player player) {
+        int duration = effects.getInt("duration");
+        int amplifier= effects.getInt("amplifier");
+        Boolean ambient = effects.getBoolean("isambient");
+        Boolean particles = effects.getBoolean("effectparticle");
+        Enumeration<String> e = Collections.enumeration(effects.getStringList("types"));
+        while(e.hasMoreElements()) {
+            int type = (Integer.parseInt(e.nextElement())) -1;
+            int a = new Random().nextInt(100);
+            if (a <= effects.getInt("chance")) {
+                PotionEffect potion = new PotionEffect(PotionEffectType.values()[type], duration, amplifier, ambient, particles);
+                player.addPotionEffect(potion);
+            }
+        }
+    }
+
 }

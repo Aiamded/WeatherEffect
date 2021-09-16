@@ -3,13 +3,14 @@ package me.dummyperson.weathereffect;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public final class Main extends JavaPlugin implements Listener {
+public final class Main extends JavaPlugin implements CommandExecutor, Listener {
 
     @Override
     public void onEnable() {
@@ -19,35 +20,36 @@ public final class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         runnable();
         reloadConfig();
-        this.getLogger().info("&bWeathereEffect Enabled!");
+        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" +  ChatColor.GREEN + " ⁑ Enabled!");
+        getCommand("weathereffect").setExecutor(this);
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info("&4WeathereEffect Disabled!");
+        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.RED + " ⁑ Disabled!");
         // Plugin shutdown logic
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        Player player = (Player) sender;
-        if (!sender.hasPermission("weathereffect.reload") || !sender.isOp()) {
-            if (alias.equalsIgnoreCase("weathereffect")) {
-                if (args.length == 0) {
-                    sender.sendMessage(ChatColor.GREEN + "To reload do /weathereffect reload");
-                } else if (args[0].equalsIgnoreCase("reload")) {
-                    saveDefaultConfig();
-                    reloadConfig();
-                    sender.sendMessage(ChatColor.GREEN + "WeatherEffect reloaded!");
-                }
-                else {
-                    sender.sendMessage(ChatColor.RED + "Unknown Command");
+
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if(cmd.getName().equalsIgnoreCase("weathereffect")) {
+            if(args.length == 0) {
+                if(sender.hasPermission("weathereffect.player")) {
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + "] " +  ChatColor.RED + " ⁑ Unknown commands or No permissions...");
+                    return true;
                 }
             }
-        } else {
-            sender.sendMessage(ChatColor.RED + "Permission Denied!");
+            if((args.length == 1) && (args[0].equalsIgnoreCase("reload"))) {
+                if(sender.hasPermission("weathereffect.reload")) {
+                    reloadConfig();
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + "] " +  ChatColor.GREEN + " ⁑ Reloaded!");
+                    return true;
+                }
+            }
         }
-        return false;
-    };
+        return true;
+    }
+
 
     public void  runnable() {
         new BukkitRunnable() {

@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.dummyperson</groupId>
-    <artifactId>weathereffect</artifactId>
-    <version>0.3</version>
+    <artifactId>WeatherEffect</artifactId>
+    <version>0.4</version>
     <packaging>jar</packaging>
 
     <name>WeatherEffect</name>

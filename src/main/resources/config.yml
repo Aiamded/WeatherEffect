@@ -28,7 +28,6 @@ enabled-weather:
       aircheck: true
       blocktypes:
         - AIR
-        - UNKNOWN
       #particle name to send
       #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
       name: FALLING_DUST
@@ -53,10 +52,86 @@ enabled-weather:
     # **** options below not available yet ****
     #Effects given to players
     effects:
-      - blind
+      #https://gamedb.gg/games/minecraft/potion-effect-ids/
+      types:
+        - 1
+      #Effect cooldown. Will be reapplied with interval
+      #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
+      duration: 60
+      amplifier: 1
+      isambient: false
+      effectparticle: false
+      chance: 100
+    #Play sound at the location of where the particle spawned
+    sound:
+      blockabovecheck: true
+      #https://papermc.io/javadocs/paper/1.16/org/bukkit/Sound.html
+      name: ENTITY_HORSE_BREATHE
+      pitch: 1
+      radius: 20
+      volume: 1
+      chance: 100
+    summon:
+      mobs:
+        - zombies
+        - skeleton
+      groundtype:
+      radius:
+      chance: 5
+  snowvariant:
+    #thunder, rain, clear
+    #not sure if thunder check is working use rain or clear
+    weathertype: rain
+    blockstate:
+    #Check if particles should only be spawned inside a biome
+    biomes-check: true
+    #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
+    biomes:
+      - terralith:mirage_isles
+      - terralith:amethyst_rainforest
+      - minecraft:badlands
+    #More information for particles
+    #https://minecraft.fandom.com/wiki/Particles
+    particle:
+      blockabovecheck: true
+      #valid block types for air checking can be any material
+      aircheck: true
+      blocktypes:
+        - AIR
+      #particle name to send
+      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
+      name: FALLING_DUST
+      #Leave this alone if not using falling_dust
+      particledata: SAND
+      #particles movement when spawned
+      delta-x: 0
+      delta-y: 0
+      delta-z: 0
+      #particle speed
+      speed: 0.25
+      #particle count
+      count: 5
+      #How many blocks from player's current location can the particles spawned up to.
+      radius: 50
+      #force spawning particles if true otherwise it will spawn within where player looking at.
+      force: true
+      #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
+      #If chances 100, any area with light level 15 will have particles spawned
+      #chance = Skylightlevel * 100
+      chances: 100
+    # **** options below not available yet ****
+    #Effects given to players
+    effects:
+      #https://gamedb.gg/games/minecraft/potion-effect-ids/
+      types:
+        - 1
     #Effect cooldown. Will be reapplied with interval
-    #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
-    cooldown: 4
+      #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
+      duration: 60
+      amplifier: 1
+      isambient: false
+      effectparticle: false
+      chance: 100
     #Play sound at the location of where the particle spawned
     sound:
       blockabovecheck: true

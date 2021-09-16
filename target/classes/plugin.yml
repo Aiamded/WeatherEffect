@@ -1,7 +1,13 @@
 name: WeatherEffect
-version: 0.2
+version: 1.0-SNAPSHOT
 main: me.dummyperson.weathereffect.Main
 api-version: 1.17
 authors: [ Dummyperson ]
 description: Generate Customizable Particle at certain biomes. Support for Datapack.
 website: www.breadstick.info
+
+commands:
+  weathereffect:
+    description: WeatherEffect reload command
+    permission: weathereffect.player
+    usage: /<command>
