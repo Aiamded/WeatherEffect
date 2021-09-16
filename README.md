@@ -22,6 +22,9 @@ Minecraft artificial weather effect through particle builder, playsound and effe
 > * [ ] Permissions Support
 > If you have suggestions feel free to let me know
 
+## Sample Video Click It!
+> [![Watch the video](https://img.youtube.com/vi/iyUgYhvz7Ys/maxresdefault.jpg)](https://youtu.be/iyUgYhvz7Ys)
+
 ## Credits
 
 > My Friends, [Jeff Media GBR contributor](https://github.com/mfnalex), [Custom Biome Detection Using NMS](https://www.spigotmc.org/threads/1-17-getting-custom-biomes-and-dimensions-by-namespace.513957/).
