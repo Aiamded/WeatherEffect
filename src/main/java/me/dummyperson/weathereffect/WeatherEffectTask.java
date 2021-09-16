@@ -1,15 +1,16 @@
 package me.dummyperson.weathereffect;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import net.minecraft.server.commands.CommandPlaySound;
+import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 
 import java.util.List;
+import java.util.Random;
 
 public class WeatherEffectTask {
 
@@ -24,11 +25,11 @@ public class WeatherEffectTask {
             String weather = effect.getString("weathertype");
             boolean biomesCheck = effect.getBoolean("biomes-check");
             ConfigurationSection particle = effect.getConfigurationSection("particle");
+            ConfigurationSection sound = effect.getConfigurationSection("sound");
             List<String> biomes = effect.getStringList("biomes");
             if (checker.weatherCheck(player).equals(weather) & biomes.contains(biome) & biomesCheck){
                 spawnParticles(particle, player.getLocation(), player);
-                Bukkit.getLogger().info(String.valueOf(conf.getKeys(false)));
-                //run spawnParticles n amount of times
+                soundGenerator(sound, player.getLocation(), player);
             }
         }
     }
@@ -118,6 +119,7 @@ public class WeatherEffectTask {
         pb.count(count);
         pb.location(location);
         pb.offset(deltax, deltay, deltaz);
+        pb.data(Bukkit.createBlockData(Material.valueOf(particle.getString("particledata"))));
         pb.extra(particle.getDouble("speed"));
         pb.force(particle.getBoolean("force"));
         pb.spawn();
@@ -127,4 +129,40 @@ public class WeatherEffectTask {
         return (double)Math.floor(Math.random()*(max-min+1)+min);
     }
 
+    public void soundGenerator(ConfigurationSection sound, @NotNull Location location, Player player) {
+        double max = sound.getInt("radius");
+        double min = -sound.getInt("radius");
+        double x = (rando(min, max));
+        double y = (rando(min, max));
+        double z = (rando(min, max));
+        Float volume = Float.parseFloat(sound.getString("pitch"));
+        Float pitch = Float.parseFloat(sound.getString("pitch"));
+        String category = sound.getString("category");
+        String name = sound.getString("name");
+        Location randoLoc = location.add(x, y, z);
+
+        Blockabovecheck check = new Blockabovecheck() {
+            @Override
+            public void checker() {
+                if (sound.getBoolean("blockabovecheck")) {
+                    if (!checker.blockAbove(randoLoc)) {
+                        int a = new Random().nextInt(100);
+                        if (a <= sound.getInt("chance")) {
+                            player.playSound(randoLoc, Sound.valueOf(name), volume, pitch);
+                        } else { }
+                    } else if (checker.blockAbove(randoLoc)) { }
+                } else {
+                    int a = new Random().nextInt(100);
+                    if (a <= sound.getInt("chance")) {
+                        player.playSound(randoLoc, Sound.valueOf(name), volume, pitch);
+                    }
+                }
+            }
+        };
+        check.checker();
+    }
+
+    public void entitygenerator() {
+
+    }
 }

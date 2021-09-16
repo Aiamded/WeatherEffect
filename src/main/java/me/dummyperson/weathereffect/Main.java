@@ -19,10 +19,12 @@ public final class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         runnable();
         reloadConfig();
+        this.getLogger().info("&bWeathereEffect Enabled!");
     }
 
     @Override
     public void onDisable() {
+        this.getLogger().info("&4WeathereEffect Disabled!");
         // Plugin shutdown logic
     }
 
