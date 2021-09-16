@@ -32,7 +32,7 @@ public class WeatherEffectTask {
         }
     }
 
-    interface blockabovecheck {
+    interface Blockabovecheck {
         void checker();
     }
 
@@ -43,42 +43,73 @@ public class WeatherEffectTask {
         double y = (rando(min, max));
         double z = (rando(min, max));
         Location randoLoc = location.add(x, y, z);
-        blockabovecheck check = new blockabovecheck() {
+        Blockabovecheck check = new Blockabovecheck() {
             public void checker() {
                 if (particle.getBoolean("blockabovecheck")) {
-                    blockabove();
+                    blockabovechecking();
                 } else if (!particle.getBoolean("blockabovecheck")) {
                     if (checker.skylightChance(randoLoc, particle.getInt("chances"))) {
                         spawnParticlesPassed(particle, randoLoc, player);
                     } else {
                         // Bruh Attempt Fails
+                        retryonfail();
                     }
+                } else {
+                    retryonfail();
+                }
+            }
+
+            public void blockabovechecking() {
+                if (!checker.blockAbove(randoLoc)) {
+                    spawnParticlesPassed(particle, randoLoc, player);
+                } else if (checker.blockAbove(randoLoc)){
+                    retryonfail();
                 } else {
 
                 }
             }
 
-            public void blockabove() {
-                if (!checker.blockAbove(randoLoc)) {
-                    spawnParticlesPassed(particle, randoLoc, player);
-                } else if (checker.blockAbove(randoLoc)){
-                    //repeat Spawnparticles
+            public void retryonfail() {
+                double max = particle.getInt("radius");
+                double min = -particle.getInt("radius");
+                double x = (rando(min, max));
+                double y = (rando(min, max));
+                double z = (rando(min, max));
+                Location randoLoc = location.add(x, y, z);
+                airchecking(randoLoc);
+            }
+            public void airchecking(Location randoLoc) {
+                if (particle.getBoolean("aircheck")) {
+                    if (checker.airCheck(randoLoc).contains("AIR")) {
+                        checker();
+                    } else if (checker.airCheck(randoLoc).contains("CAVE")) {
+                        checker();
+                    } else if (checker.airCheck(randoLoc).contains(particle.getString("blocktype"))) {
+                        checker();
+                    } else {
+                        //If it returned other material type it will fail
+                        retryonfail();
+                        //check.checker();
+                    }
                 } else {
-
+                    checker();
                 }
             }
         };
 
         if (particle.getBoolean("aircheck")) {
-            if (checker.airCheck(randoLoc).contains("air")) {
+            if (checker.airCheck(randoLoc).contains("AIR")) {
                 check.checker();
-            } else if (checker.airCheck(randoLoc).contains("cave")) {
+            } else if (checker.airCheck(randoLoc).contains("CAVE_AIR")) {
                 check.checker();
-            } else if (checker.airCheck(randoLoc).contains("other")) {
-                //check.checker();
+            } else if (checker.airCheck(randoLoc).contains(particle.getString("blocktype"))) {
+                check.checker();
             } else {
-                check.checker();
+                //If it returned other material type it will fail
+                //check.checker();
             }
+        } else if (!particle.getBoolean("aircheck")) {
+            check.checker();
         } else {
             check.checker();
         }

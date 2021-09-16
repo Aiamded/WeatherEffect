@@ -18,6 +18,7 @@ public final class Main extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         runnable();
+        reloadConfig();
     }
 
     @Override
@@ -25,25 +26,26 @@ public final class Main extends JavaPlugin implements Listener {
         // Plugin shutdown logic
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("weathereffect")) {
-            if (sender.hasPermission("weathereffect.reload")) {
+    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+        Player player = (Player) sender;
+        if (!sender.hasPermission("weathereffect.reload") || !sender.isOp()) {
+            if (alias.equalsIgnoreCase("weathereffect")) {
                 if (args.length == 0) {
-                    sender.sendMessage(ChatColor.GREEN + "/weathereffect reload");
-                    return true;
-                }
-
-                if (args[0].equalsIgnoreCase("reload")) {
-                    sender.sendMessage(ChatColor.GREEN + "weathereffect reloaded");
+                    sender.sendMessage(ChatColor.GREEN + "To reload do /weathereffect reload");
+                } else if (args[0].equalsIgnoreCase("reload")) {
                     saveDefaultConfig();
                     reloadConfig();
-                    return true;
+                    sender.sendMessage(ChatColor.GREEN + "WeatherEffect reloaded!");
                 }
-                return false;
+                else {
+                    sender.sendMessage(ChatColor.RED + "Unknown Command");
+                }
             }
+        } else {
+            sender.sendMessage(ChatColor.RED + "Permission Denied!");
         }
         return false;
-    }
+    };
 
     public void  runnable() {
         new BukkitRunnable() {

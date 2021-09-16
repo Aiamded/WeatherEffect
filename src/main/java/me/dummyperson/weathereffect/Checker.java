@@ -72,11 +72,11 @@ public class Checker {
     public String airCheck (Location location) {
         String airchecker = location.getBlock().getBlockData().toString();
         if (airchecker.equals("AIR")) {
-            return "air";
+            return airchecker;
         } else if (airchecker.equals("CAVE_AIR")) {
-            return "cave_air";
+            return airchecker;
         } else {
-            return  "other";
+            return  airchecker;
         }
     }
 }

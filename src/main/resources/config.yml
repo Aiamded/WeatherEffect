@@ -5,17 +5,14 @@
 #You might want to change this depends on what particle you used. 20 tick = 1 second
 ticks: 4
 #how many times to attempt spawning particles every ticks rate above
-attempts: 40
+attempts: 25
 enabled-weather:
   #Weather Effect Names
   sandstorm:
     #thunder, rain, clear
     #not sure if thunder check is working use rain or clear
     weathertype: rain
-    #valid types are air and cave_air
-    aircheck: false
-    airtype: air
-    blockabovecheck: true
+    blockstate:
     #Check if particles should only be spawned inside a biome
     biomes-check: true
     #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
@@ -26,17 +23,21 @@ enabled-weather:
     #More information for particles
     #https://minecraft.fandom.com/wiki/Particles
     particle:
+      blockabovecheck: true
+      #valid block types for air checking can be any material
+      aircheck: false
+      blocktype: AIR
       #particle name to send
       #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
       name: SNOWFLAKE
       #particles movement when spawned
-      delta-x: 1
-      delta-y: 1
-      delta-z: 1
+      delta-x: 0
+      delta-y: -2
+      delta-z: 0
       #particle speed
-      speed: 0.25
+      speed: 0
       #particle count
-      count: 10
+      count: 5
       #How many blocks from player's current location can the particles spawned up to.
       radius: 15
       #force spawning particles if true otherwise it will spawn within where player looking at.
