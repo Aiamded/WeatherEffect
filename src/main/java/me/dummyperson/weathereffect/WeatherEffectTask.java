@@ -27,6 +27,7 @@ public class WeatherEffectTask {
             List<String> biomes = effect.getStringList("biomes");
             if (checker.weatherCheck(player).equals(weather) & biomes.contains(biome) & biomesCheck){
                 spawnParticles(particle, player.getLocation(), player);
+                Bukkit.getLogger().info(String.valueOf(conf.getKeys(false)));
                 //run spawnParticles n amount of times
             }
         }
@@ -63,7 +64,8 @@ public class WeatherEffectTask {
                 if (!checker.blockAbove(randoLoc)) {
                     spawnParticlesPassed(particle, randoLoc, player);
                 } else if (checker.blockAbove(randoLoc)){
-                    retryonfail();
+                    //Do not attempt to spawn particle again if there's a block above
+                    //retryonfail();
                 } else {
 
                 }
@@ -80,15 +82,10 @@ public class WeatherEffectTask {
             }
             public void airchecking(Location randoLoc) {
                 if (particle.getBoolean("aircheck")) {
-                    if (checker.airCheck(randoLoc).contains("AIR")) {
-                        checker();
-                    } else if (checker.airCheck(randoLoc).contains("CAVE")) {
-                        checker();
-                    } else if (checker.airCheck(randoLoc).contains(particle.getString("blocktype"))) {
+                    if (particle.getList("blocktypes").contains(checker.airCheck(randoLoc))) {
                         checker();
                     } else {
                         //If it returned other material type it will fail
-                        retryonfail();
                         //check.checker();
                     }
                 } else {
@@ -98,11 +95,7 @@ public class WeatherEffectTask {
         };
 
         if (particle.getBoolean("aircheck")) {
-            if (checker.airCheck(randoLoc).contains("AIR")) {
-                check.checker();
-            } else if (checker.airCheck(randoLoc).contains("CAVE_AIR")) {
-                check.checker();
-            } else if (checker.airCheck(randoLoc).contains(particle.getString("blocktype"))) {
+            if (particle.getList("blocktypes").contains(checker.airCheck(randoLoc))) {
                 check.checker();
             } else {
                 //If it returned other material type it will fail

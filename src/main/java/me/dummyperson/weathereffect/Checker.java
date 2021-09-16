@@ -48,7 +48,6 @@ public class Checker {
     }
 
     public boolean blockAbove (Location location) {
-        Bukkit.getLogger().info("Block above checking");
         int solid = location.getWorld().getHighestBlockYAt(location);
         int yspawn = location.getBlockY();
         if (solid >= yspawn) {
@@ -70,13 +69,7 @@ public class Checker {
     }
 
     public String airCheck (Location location) {
-        String airchecker = location.getBlock().getBlockData().toString();
-        if (airchecker.equals("AIR")) {
-            return airchecker;
-        } else if (airchecker.equals("CAVE_AIR")) {
-            return airchecker;
-        } else {
-            return  airchecker;
-        }
+        String airchecker = location.getBlock().getType().name();
+        return airchecker;
     }
 }
