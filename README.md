@@ -22,10 +22,10 @@ I realized with this plugin you can do alot of things. Like multiple particle ty
 > * [ ] Dust Particle
 > * [ ] Dust Color Transition Effect
 > * [ ] Vibration Particles 
-> * [ ] Summon Entities
+> * [x] Summon Entities
 > * [ ] PlaceholderAPI support
 > * [ ] WordlGuard Support
-> * [ ] Permissions Support
+> * [x] Permissions Support
 > * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
 > * [ ] NMS Entity NBT Tag support for special ability
 > * [ ] Separate Particle, Sound and Entity Spawning into different config files. Which should help with performance at the cost of configuration complexity.
