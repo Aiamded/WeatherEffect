@@ -10,7 +10,8 @@ I realized with this plugin you can do alot of things. Like multiple particle ty
 
 ## Dependencies
 
-> None... however this plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks
+> [NBT API Plugin](https://www.spigotmc.org/resources/nbt-api.7939/) - required to work.
+> This plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks.
 > Tested on 1.17.1, not confirmed on lower versions and should work just fine.
 
 ## To do list
@@ -40,7 +41,7 @@ Consider contribute to this project or creditors.
 
 ## Credits
 
-> My Friends, [Jeff Media GBR contributor](https://github.com/mfnalex), [Custom Biome Detection Using NMS](https://www.spigotmc.org/threads/1-17-getting-custom-biomes-and-dimensions-by-namespace.513957/).
+> My Friends, [Jeff Media GBR contributor](https://github.com/mfnalex), [Custom Biome Detection Using NMS](https://www.spigotmc.org/threads/1-17-getting-custom-biomes-and-dimensions-by-namespace.513957/), [NBT API Plugin](https://www.spigotmc.org/resources/nbt-api.7939/).
 
 ## Inspiration
 
