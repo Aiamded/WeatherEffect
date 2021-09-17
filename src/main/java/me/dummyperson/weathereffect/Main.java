@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,15 +20,15 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         // Plugin startup logic
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-        runnable();
         reloadConfig();
-        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" +  ChatColor.GREEN + " ⁑ Enabled!");
+        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Enabled!");
         getCommand("weathereffect").setExecutor(this);
+        weatherList();
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.RED + " ⁑ Disabled!");
+        this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.RED + " Disabled!");
         // Plugin shutdown logic
     }
 
@@ -35,14 +37,14 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         if(cmd.getName().equalsIgnoreCase("weathereffect")) {
             if(args.length == 0) {
                 if(sender.hasPermission("weathereffect.player")) {
-                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + "] " +  ChatColor.RED + " ⁑ Unknown commands or No permissions...");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.RED + " Unknown commands or No permissions...");
                     return true;
                 }
             }
             if((args.length == 1) && (args[0].equalsIgnoreCase("reload"))) {
                 if(sender.hasPermission("weathereffect.reload")) {
                     reloadConfig();
-                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + "] " +  ChatColor.GREEN + " ⁑ Reloaded!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Reloaded!");
                     return true;
                 }
             }
@@ -50,20 +52,28 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         return true;
     }
 
+    public void weatherList() {
+        Configuration configuration = getConfig();
+        ConfigurationSection conf = configuration.getConfigurationSection("enabled-list");
+        for (String key : conf.getKeys(false)) {
+            ConfigurationSection effect = conf.getConfigurationSection(key);
+            runnable(key, effect, conf);
+        }
+    }
 
-    public void  runnable() {
+    public void  runnable(String key, ConfigurationSection effect, ConfigurationSection conf) {
         new BukkitRunnable() {
-            private WeatherEffectTask weathertask;
+            private WeatherEffectTasks weathertask;
 
             @Override
             public void run() {
-                this.weathertask = new WeatherEffectTask();
+                this.weathertask = new WeatherEffectTasks();
                 for(Player player : Bukkit.getOnlinePlayers()) {
-                    for (int i = 0; i < getConfig().getInt("attempts"); i++) {
-                        weathertask.criteriaChecker(player, getConfig());
+                    for (int i = 0; i < effect.getInt("attempts"); i++) {
+                        weathertask.criteriaChecker(player, conf, key);
                     }
                 }
             }
-        }.runTaskTimer(this, 0, getConfig().getInt("ticks"));
+        }.runTaskTimer(this, 0, effect.getInt("ticks"));
     }
 }

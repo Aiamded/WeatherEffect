@@ -63,17 +63,13 @@ public class Checker {
         if (a <= lightLevel) {
            if (new Random().nextInt(100) < chances) {
                return true;
-            }
-           else return false;
-        } else return  false;
+            } else return false;
+        } else return false;
     }
 
-    public String airCheck (Location location) {
+    public String blockCheck (Location location) {
         String airchecker = location.getBlock().getType().name();
         return airchecker;
     }
 
-    public Boolean groundCheck (Location location, int chances) {
-        return false;
-    }
 }

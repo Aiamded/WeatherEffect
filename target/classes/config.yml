@@ -1,150 +1,113 @@
-#Supports Datapack Custom Biome Gen, May partially be compatible with world gen plugin.
-#Very customizable and make your own effects
-#Weather effect only available in "world"
-#lisf ot weathers that are enabled.
-#You might want to change this depends on what particle you used. 20 tick = 1 second
-ticks: 1
-#how many times to attempt spawning particles every ticks rate above
-attempts: 50
-enabled-weather:
-  #Weather Effect Names
-  snow:
-    #thunder, rain, clear
-    #not sure if thunder check is working use rain or clear
-    weathertype: rain
-    blockstate:
-    #Check if particles should only be spawned inside a biome
-    biomes-check: true
-    #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
+#More info here https://github.com/Aiamded/WeatherEffect/wiki
+#If you made a cool effect please also let me know ヽ(￣ω￣(￣ω￣〃)ゝ
+enabled-list:
+  sandstorm:
+    ticks: 1
+    attempts: 50
+    weathertypes:
+      - rain
+    biomescheck: true
     biomes:
-      - terralith:mirage_isles
-      - terralith:amethyst_rainforest
       - minecraft:badlands
-    #More information for particles
-    #https://minecraft.fandom.com/wiki/Particles
     particle:
+      enabled: true
       blockabovecheck: true
-      #valid block types for air checking can be any material
       aircheck: true
       blocktypes:
         - AIR
-      #particle name to send
-      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
-      name: FALLING_DUST
-      #Leave this alone if not using falling_dust
-      particledata: SNOW_BLOCK
-      #particles movement when spawned
-      delta-x: 0
-      delta-y: 0
-      delta-z: 0
-      #particle speed
-      speed: 0.25
-      #particle count
-      count: 5
-      #How many blocks from player's current location can the particles spawned up to.
-      radius: 50
-      #force spawning particles if true otherwise it will spawn within where player looking at.
-      force: true
-      #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
-      #If chances 100, any area with light level 15 will have particles spawned
-      #chance = Skylightlevel * 100
-      chances: 100
-    # **** options below not available yet ****
-    #Effects given to players
-    effects:
-      #https://gamedb.gg/games/minecraft/potion-effect-ids/
       types:
-        - 1
-      #Effect cooldown. Will be reapplied with interval
-      #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
-      duration: 60
-      amplifier: 1
-      isambient: false
-      effectparticle: false
-      chance: 100
-    #Play sound at the location of where the particle spawned
-    sound:
-      blockabovecheck: true
-      #https://papermc.io/javadocs/paper/1.16/org/bukkit/Sound.html
-      name: ENTITY_HORSE_BREATHE
-      pitch: 1
-      radius: 20
-      volume: 1
-      chance: 100
-    summon:
-      mobs:
-        - zombies
-        - skeleton
-      groundtype:
-      radius:
-      chance: 5
-  snowvariant:
-    #thunder, rain, clear
-    #not sure if thunder check is working use rain or clear
-    weathertype: rain
-    blockstate:
-    #Check if particles should only be spawned inside a biome
-    biomes-check: true
-    #list of biome names. Ex: minecraft:badlands, terralith:mirage_isles <-- Datapack Biome name
-    biomes:
-      - terralith:mirage_isles
-      - terralith:amethyst_rainforest
-      - minecraft:badlands
-    #More information for particles
-    #https://minecraft.fandom.com/wiki/Particles
-    particle:
-      blockabovecheck: true
-      #valid block types for air checking can be any material
-      aircheck: true
-      blocktypes:
-        - AIR
-      #particle name to send
-      #https://papermc.io/javadocs/paper/1.17/org/bukkit/Particle.html
-      name: FALLING_DUST
-      #Leave this alone if not using falling_dust
+        - FALLING_DUST
       particledata: SAND
-      #particles movement when spawned
-      delta-x: 0
-      delta-y: 0
-      delta-z: 0
-      #particle speed
-      speed: 0.25
-      #particle count
-      count: 5
-      #How many blocks from player's current location can the particles spawned up to.
-      radius: 50
-      #force spawning particles if true otherwise it will spawn within where player looking at.
-      force: true
-      #Skylight level 0-15 depends on where particle spawned at not player skylightlevel.
-      #If chances 100, any area with light level 15 will have particles spawned
-      #chance = Skylightlevel * 100
-      chances: 100
-    # **** options below not available yet ****
-    #Effects given to players
+      delta-x: 1
+      delta-y: 1
+      delta-z: 1
+      speed: 0
+      count: 2
+      radius: 5
+      force: false
+      chances: 80
     effects:
-      #https://gamedb.gg/games/minecraft/potion-effect-ids/
+      enabled: true
+      blockabovecheck: true
       types:
-        - 1
-    #Effect cooldown. Will be reapplied with interval
-      #Like Players still blind for a while when they left the storm. Cause they need to wash their eyes xd.
+        - 2
+        - 15
       duration: 60
       amplifier: 1
       isambient: false
       effectparticle: false
       chance: 100
-    #Play sound at the location of where the particle spawned
     sound:
+      enabled: true
       blockabovecheck: true
-      #https://papermc.io/javadocs/paper/1.16/org/bukkit/Sound.html
       name: ENTITY_HORSE_BREATHE
-      pitch: 1
-      radius: 20
-      volume: 1
-      chance: 100
+      pitch: 0.25
+      radius: 15
+      volume: 0.2
+      chance: 10
     summon:
-      mobs:
-        - zombies
-        - skeleton
-      groundtype:
-      radius:
-      chance: 5
+      enabled: false
+      blockabovecheck: true
+      entities-spawned-loggings: true
+      #https://purpur.pl3x.net/javadoc/org/bukkit/entity/EntityType.html
+      entities:
+        - ZOMBIE
+        - SKELETON
+      #https://mcreator.net/wiki/entity-ids
+      ##NBT implementation in progress.
+      NBT:
+        CanPickUpLoot:
+          data: 1
+          datatype: int
+        NoAi: 0
+      groundcheck:
+        enabled: true
+        depth: 10
+      groundtypes:
+        - SAND
+        - RED_SAND
+      aircheck:
+        enabled: true
+        height: 5
+      blocktypes:
+        - AIR
+        - CAVE_AIR
+      radius: 10
+      #turned 0 to disable since the tickrate and attempts are too high even the chance = 1 still spawn to many entities
+      chance: 1
+  sandstorm-entity:
+    ticks: 1
+    attempts: 50
+    weathertypes:
+      - rain
+    biomescheck: true
+    biomes:
+      - minecraft:badlands
+    particle:
+      enabled: false
+    effects:
+      enabled: false
+    sound:
+      enabled: false
+    summon:
+      enabled: true
+      blockabovecheck: true
+      entities-spawned-loggings: true
+      entities:
+        - ZOMBIE
+        - SKELETON
+      groundcheck:
+        enabled: true
+        depth: 10
+      groundtypes:
+        - SAND
+        - RED_SAND
+      aircheck:
+        enabled: true
+        height: 5
+      blocktypes:
+        - AIR
+        - CAVE_AIR
+      radius: 10
+      #turned 0 to disable since the tickrate and attempts are too high even the chance = 1 still spawn to many entities
+      chance: 1

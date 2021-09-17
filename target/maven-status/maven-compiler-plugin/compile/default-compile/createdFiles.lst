@@ -1,7 +1,11 @@
-me\dummyperson\weathereffect\Checker.class
-me\dummyperson\weathereffect\WeatherEffectTask$1.class
-me\dummyperson\weathereffect\WeatherEffectTask.class
-me\dummyperson\weathereffect\Main.class
-me\dummyperson\weathereffect\WeatherEffectTask$2.class
+me\dummyperson\weathereffect\WeatherEffectTasks$Checking.class
+me\dummyperson\weathereffect\WeatherEffectTasks$1.class
+me\dummyperson\weathereffect\WeatherEffectTasks$2.class
 me\dummyperson\weathereffect\Main$1.class
-me\dummyperson\weathereffect\WeatherEffectTask$Blockabovecheck.class
+me\dummyperson\weathereffect\WeatherEffectTasks$5.class
+me\dummyperson\weathereffect\Checker.class
+me\dummyperson\weathereffect\WeatherEffectTasks$4.class
+me\dummyperson\weathereffect\WeatherEffectTasks$Starting.class
+me\dummyperson\weathereffect\Main.class
+me\dummyperson\weathereffect\WeatherEffectTasks$3.class
+me\dummyperson\weathereffect\WeatherEffectTasks.class

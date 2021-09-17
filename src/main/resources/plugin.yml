@@ -2,9 +2,10 @@ name: WeatherEffect
 version: ${project.version}
 main: me.dummyperson.weathereffect.Main
 api-version: 1.17
-authors: [ Dummyperson ]
-description: Generate Customizable Particle at certain biomes. Support for Datapack.
+authors: [ Dummyperson, Aiamded, Kh Destruction ]
+description: Customizable WeatherEffect generator. With Sound and Summon Entity Support.
 website: www.breadstick.info
+depend: [NBTAPI]
 
 commands:
   weathereffect:
