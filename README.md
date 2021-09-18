@@ -10,8 +10,10 @@ I realized with this plugin you can do alot of things. Like multiple particle ty
 
 ## Dependencies
 
-> [NBT API Plugin](https://www.spigotmc.org/resources/nbt-api.7939/) - required to work.
-> This plugin uses particlebuidler from PaperMC-API please use PaperMC or other PaperMC forks.
+> [NBT API Plugin](https://www.spigotmc.org/resources/nbt-api.7939/) - Please download this plugin. As it's required to work.
+> 
+> This plugin uses particlebuidler from Paper please use Paper or other Paper forks.
+> 
 > Tested on 1.17.1, not confirmed on lower versions and should work just fine.
 
 ## To do list
