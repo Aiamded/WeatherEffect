@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public final class Main extends JavaPlugin implements CommandExecutor, Listener {
 
-    HashMap<String, Boolean> taskCancel = new HashMap<String, Boolean>();
+    HashMap<String, Boolean> taskRunning = new HashMap<String, Boolean>();
 
     @Override
     public void onEnable() {
@@ -24,7 +25,6 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         // Plugin startup logic
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-        reloadConfig();
         this.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Loader" + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Enabled!");
         getCommand("weathereffect").setExecutor(this);
         weatherList();
@@ -47,8 +47,8 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
             }
             if((args.length == 1) && (args[0].equalsIgnoreCase("reload"))) {
                 if(sender.hasPermission("weathereffect.reload")) {
-                    reloadTasks();
-                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Tasks unloading!! Check console for more information!!");
+                    reloader();
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Configuration" + ChatColor.AQUA + " ❖ " + ChatColor.DARK_PURPLE + " Tasks unloading!! Check console for more information!!");
                     return true;
                 }
             }
@@ -56,40 +56,35 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
         return true;
     }
 
-    public void reloadTasks() {
+    public void reloader() {
         reloadConfig();
         Configuration configuration = getConfig();
         ConfigurationSection conf = configuration.getConfigurationSection("enabled-list");
         for (String key : conf.getKeys(false)) {
-            if (!taskCancel.get(key)) {
-                ConfigurationSection effect = conf.getConfigurationSection(key);
-                runnable(key, effect, conf);
-                taskCancel.put(key, true);
-                Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Unloading " + key + ChatColor.AQUA + " ❖ " + ChatColor.RED + " Please wait!");
-            } else if (!taskCancel.containsKey(key)) {
-                Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Loaded New Task: " + key + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Successful!");
-                ConfigurationSection effect = conf.getConfigurationSection(key);
-                taskCancel.put(key, false);
-                runnable(key, effect, conf);
+            while (taskRunning.get(key)) {
+                taskRunning.put(key, false);
+                Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Reloading " + key + ChatColor.AQUA + " ❖ " + ChatColor.RED + " Please wait!");
             }
         }
+
     }
-
-
     public void weatherList() {
         Configuration configuration = getConfig();
         ConfigurationSection conf = configuration.getConfigurationSection("enabled-list");
         for (String key : conf.getKeys(false)) {
-            if (!taskCancel.containsKey(key)) {
-                Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Loading Task: " + key + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Successful!");
-                ConfigurationSection effect = conf.getConfigurationSection(key);
-                taskCancel.put(key, false);
-                runnable(key, effect, conf);
+            while (!taskRunning.containsKey(key)) {
+                taskRunning.put(key, true);
+                Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Task Loading: " + key + ChatColor.AQUA + " ❖ " + ChatColor.DARK_PURPLE + " Loaded!");
+                runnable(key);
             }
         }
     }
 
-    public void  runnable(String key, ConfigurationSection effect, ConfigurationSection conf) {
+    public void runnable(String key) {
+        Configuration configuration = getConfig();
+        ConfigurationSection conf = configuration.getConfigurationSection("enabled-list");
+        ConfigurationSection effect = conf.getConfigurationSection(key);
+
         new BukkitRunnable() {
             private WeatherEffectTasks weathertask;
 
@@ -101,10 +96,14 @@ public final class Main extends JavaPlugin implements CommandExecutor, Listener 
                         weathertask.criteriaChecker(player, conf, key);
                     }
                 }
-                while (taskCancel.get(key)) {
+                if (!taskRunning.get(key)) {
+                    taskRunning.remove(key);
+                    Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Effect Name: " + key + ChatColor.AQUA + " ❖ " + ChatColor.RED + " Stopping!");
+                }
+                if (!taskRunning.containsKey(key)) {
                     cancel();
-                    taskCancel.put(key, false);
-                    Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Reloading " + key + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Successful!");
+                    weatherList();
+                    Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖ " + ChatColor.GRAY + " Restarted: " + key + ChatColor.AQUA + " ❖ " + ChatColor.GREEN + " Successful!");
                 }
             }
         }.runTaskTimer(this, 0, effect.getInt("ticks"));

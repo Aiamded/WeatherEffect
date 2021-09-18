@@ -15,16 +15,15 @@ enabled-list:
       aircheck: true
       blocktypes:
         - AIR
-      types:
-        - FALLING_DUST
+      name: FALLING_DUST
       particledata: SAND
       delta-x: 2
       delta-y: 2
       delta-z: 2
       speed: 0
       count: 4
-      radius: 5
       force: true
+      radius: 5
       chances: 100
     effects:
       enabled: true

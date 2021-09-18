@@ -164,19 +164,18 @@ public class WeatherEffectTasks {
         double deltax = particle.getDouble("delta-x");
         double deltay = particle.getDouble("delta-y");
         double deltaz = particle.getDouble("delta-z");
-
-        Enumeration<String> e = Collections.enumeration(particle.getStringList("types"));
-        while(e.hasMoreElements()) {
-            ParticleBuilder pb = new ParticleBuilder(Particle.valueOf(e.nextElement()));
-            pb.receivers(player);
-            pb.count(count);
-            pb.location(location);
-            pb.offset(deltax, deltay, deltaz);
+        ParticleBuilder pb = new ParticleBuilder(Particle.valueOf(particle.getString("name")));
+        pb.receivers(player);
+        pb.count(count);
+        pb.location(location);
+        pb.offset(deltax, deltay, deltaz);
+        if (Objects.equals(particle.getString("name"), "FALLING_DUST")) {
             pb.data(Bukkit.createBlockData(Material.valueOf(particle.getString("particledata"))));
-            pb.extra(particle.getDouble("speed"));
-            pb.force(particle.getBoolean("force"));
-            pb.spawn();
         }
+        pb.extra(particle.getDouble("speed"));
+        pb.force(particle.getBoolean("force"));
+        pb.spawn();
+
     }
 
     public double rando (double min, double max) {
