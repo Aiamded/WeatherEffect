@@ -226,53 +226,41 @@ public class WeatherEffectTasks {
             @Override
             public void checker() {
                 if (!summon.getStringList("entities").isEmpty()) {
-                    if (summon.getBoolean("groundcheck.enabled")) {
-                        lowestGroundAt();
-                    }
+                    chance();
                 }
             }
 
-            public void lowestGroundAt() {
-                Location checking = randoLoc;
+            public void chance() {
+                if (new Random().nextInt(100) < summon.getInt("chance")) {
+                    blockAbove();
+                }
+            }
+
+            public void blockAbove() {
+                if (summon.getBoolean("blockabovecheck")) {
+                    if (!checker.blockAbove(randoLoc)) {
+                        groundCheck();
+                    }
+                } else {
+                    groundCheck();
+                }
+            }
+
+            public void groundCheck() {
+                if (summon.getBoolean("groundcheck")) {
+                    lowestGroundAt();
+                } else {
+                 airCheck(null);
+                }
+            }
+            public void lowestGroundAt () {
                 for (int i = 0; i < summon.getInt("groundcheck.depth"); i++) {
-                    if (!summon.getStringList("blocktypes").isEmpty() & summon.getStringList("blocktypes").contains(checker.blockCheck(checking))) {
+                    Location checking = randoLoc;
+                    if (!summon.getStringList("blocktypes").isEmpty() && summon.getStringList("blocktypes").contains(checker.blockCheck(checking)) && checker.blockAbove(checking.add(0,1,0))) {
                         checking.add(0, -1,0);
+                    } else if (!summon.getStringList("blocktypes").isEmpty() && summon.getStringList("blocktypes").contains(checker.blockCheck(checking)) && checker.blockAbove(checking.add(0,1,0))) {
                         lowestBlockVerify(i, checking);
                     }
-                    airCheck(checking);
-                }
-            }
-
-            public void airCheck (Location checking) {
-                Location airChecking = checking;
-                if (summon.getBoolean("aircheck.enabled") & summon.getStringList("blocktypes").contains(checker.blockCheck(airChecking))) {
-                    for (int i = 0; i < summon.getInt("aircheck.height"); i++) {
-                        if (!summon.getStringList("blocktypes").isEmpty() & summon.getStringList("blocktypes").contains(checker.blockCheck(airChecking))) {
-                            airChecking.add(0, 1,0);
-                            radiusVerify(i, checking);
-                        }
-                    }
-                } else if (!summon.getBoolean("aircheck.enabled")) {
-                    lowestGroundAt();
-                }
-            }
-
-            public void preSummon(Location newLoc){
-                if (new Random().nextInt(100) < summon.getInt("chance")) {
-                    summoning(summon.getStringList("entities"), newLoc);
-                }
-            }
-
-            public void summoning(List<String> list, Location newLoc) {
-                Random rand = new Random();
-                String entityname = list.get(rand.nextInt(list.size()));
-                org.bukkit.entity.Entity entity = randoLoc.getWorld().spawnEntity(randoLoc, EntityType.valueOf(entityname));
-                NBTEntity nbtent = new NBTEntity(entity);
-                //Bukkit.getLogger().info(String.valueOf(nbtent));
-                nbtent.setByte("CanPickUpLoot", (byte) 1);
-
-                if (summon.getBoolean("entities-spawned-loggings")) {
-                    Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeathereEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖  " + ChatColor.GRAY + entity.getName() + " spawned at x: " + newLoc.getBlockX() + " y: " + newLoc.getBlockY() + " z: " + newLoc.getBlockZ());
                 }
             }
 
@@ -282,10 +270,64 @@ public class WeatherEffectTasks {
                 }
             }
 
+            public void airCheck(Location checking) {
+                if (summon.getBoolean("aircheck.enabled")) {
+                    if (checking == null) {
+                        if (summon.getStringList("blocktypes").contains(checker.blockCheck(randoLoc))) {
+                            Location airChecking = randoLoc;
+                            for (int i = 0; i < summon.getInt("aircheck.height"); i++) {
+                                if (!summon.getStringList("blocktypes").isEmpty() && summon.getStringList("blocktypes").contains(checker.blockCheck(airChecking))) {
+                                    airChecking.add(0, 1,0);
+                                    radiusVerify(i, airChecking);
+                                } else if (summon.getStringList("blocktypes").isEmpty()) {
+                                    summoning(randoLoc);
+                                }
+                            }
+                        }
+                    } else if (checking != null) {
+                        if (summon.getStringList("blocktypes").contains(checker.blockCheck(checking))) {
+                            Location airChecking = checking;
+                            for (int i = 0; i < summon.getInt("aircheck.height"); i++) {
+                                if (!summon.getStringList("blocktypes").isEmpty() && summon.getStringList("blocktypes").contains(checker.blockCheck(airChecking))) {
+                                    airChecking.add(0, 1, 0);
+                                    radiusVerify(i, checking);
+                                } else if (summon.getStringList("blocktypes").isEmpty()) {
+                                    summoning(checking);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    summoning(randoLoc);
+                }
+            }
+
             public void radiusVerify (int i, Location newLoc) {
                 if (i == (summon.getInt("aircheck.height") - 1)) {
-                    preSummon(newLoc);
+                    summoning(newLoc);
                 }
+            }
+
+            public void summoning(Location newLoc) {
+                List<String> list = summon.getStringList("entities");
+                Random rand = new Random();
+                String entityname = list.get(rand.nextInt(list.size()));
+                org.bukkit.entity.Entity entity = randoLoc.getWorld().spawnEntity(randoLoc, EntityType.valueOf(entityname));
+                //nbtTags(entity, newLoc);
+                NBTEntity nbtent = new NBTEntity(entity);
+                nbtent.setByte("CanPickUpLoot", (byte) 1);
+                if (summon.getBoolean("entities-spawned-loggings")) {
+                    Bukkit.getLogger().info(ChatColor.LIGHT_PURPLE + "[ " + ChatColor.AQUA + "WeatherEffect" + ChatColor.LIGHT_PURPLE + " ]" + ChatColor.AQUA + " ❖  " + ChatColor.GRAY + entity.getName() + " spawned at x: " + newLoc.getBlockX() + " y: " + newLoc.getBlockY() + " z: " + newLoc.getBlockZ());
+                }
+            }
+
+            public void nbtTags(org.bukkit.entity.Entity entity,  Location newLoc) {
+                //Bukkit.getLogger().info(String.valueOf(nbtent));
+
+            }
+
+            public void attributes() {
+
             }
         };
         check.checker();

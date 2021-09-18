@@ -3,7 +3,7 @@
 enabled-list:
   sandstorm:
     ticks: 1
-    attempts: 50
+    attempts: 2
     weathertypes:
       - rain
     biomescheck: true
@@ -18,14 +18,14 @@ enabled-list:
       types:
         - FALLING_DUST
       particledata: SAND
-      delta-x: 1
-      delta-y: 1
-      delta-z: 1
+      delta-x: 2
+      delta-y: 2
+      delta-z: 2
       speed: 0
-      count: 2
+      count: 4
       radius: 5
-      force: false
-      chances: 80
+      force: true
+      chances: 100
     effects:
       enabled: true
       blockabovecheck: true
@@ -44,7 +44,7 @@ enabled-list:
       pitch: 0.25
       radius: 15
       volume: 0.2
-      chance: 10
+      chance: 50
     summon:
       enabled: false
       blockabovecheck: true
@@ -76,8 +76,8 @@ enabled-list:
       #turned 0 to disable since the tickrate and attempts are too high even the chance = 1 still spawn to many entities
       chance: 1
   sandstorm-entity:
-    ticks: 1
-    attempts: 50
+    ticks: 20
+    attempts: 1
     weathertypes:
       - rain
     biomescheck: true
