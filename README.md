@@ -27,6 +27,8 @@ I realized with this plugin you can do alot of things. Like multiple particle ty
 > * [x] Summon Entities
 > * [ ] PlaceholderAPI support
 > * [ ] WordlGuard Support
+> * [ ] Disable NMS biome check and use Spigot API on unsupported version (No custom biome support)
+> * [ ] Moving particle builder to old method available in Spigot for wider compatibility.
 > * [x] Permissions Support
 > * [ ] Fake Biome Data (Sky, Water, Leaves, Fogs .... color changes)
 > * [ ] NMS Entity NBT Tag support for special ability
