@@ -38,8 +38,8 @@ Like this plugin? [Donate](https://breadstick.info/support)
 
 Consider contribute to this project or creditors.
 
-## Sample Video Click It!
-> [![Watch the video](https://img.youtube.com/vi/iyUgYhvz7Ys/maxresdefault.jpg)](https://youtu.be/iyUgYhvz7Ys)
+## Sample Video Below
+> [![Watch the video](https://img.youtube.com/vi/p_cuAbAoGZQ/maxresdefault.jpg)](https://youtu.be/p_cuAbAoGZQ)
 
 ## Credits
 
