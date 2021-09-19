@@ -50,3 +50,5 @@ Consider contribute to this project or creditors.
 ## Inspiration
 
 > [Dessert Sandstorm Datapack](https://www.planetminecraft.com/data-pack/desert-sandstorms/).
+
+> Look into my code and commit reincarnation from shock!!
